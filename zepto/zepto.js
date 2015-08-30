@@ -5,6 +5,10 @@
 // 说明：
 // 对代码的学习，解释都写在源码当中。
 // 有多处打问号的地方，表示疑问，希望知道的童鞋能够告知*_*
+// 
+// 阅读链接：
+// http://www.runoob.com/w3cnote/zepto-js-source-analysis.html
+// http://www.css88.com/doc/zeptojs_api/#Touch events
 
 /*
  * zepto的两个bug:
