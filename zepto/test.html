@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            color: #555;
+            font-size: 12px;
+        }
+        .wrap {
+            width: 200px;
+            height: 200px;
+            background-color: red;
+            position: relative;
+        }
+        .inner {
+            height: 100px;
+            width: 100px;
+            background-color: yellow;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin: -50px 0 0 -50px;
+        }
+        .main {
+            height: 50px;
+            width: 50px;
+            background-color: blue;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin: -25px 0 0 -25px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="inner">
+            <div class="main"></div>
+        </div>
+    </div>
+    <button>trigger&triggerHandler</button>
+    <script src="./zepto.js"></script>
+    <script src="./event.js"></script>
+    <script src="./touch.js"></script>
+    <script>
+        // 比较mouseenter发生的次数。如果使用代理的方式处理mouseenter和mouseleave的话，是有bug的，即没有解决mouseover/out的多次触发的问题
+        // $('.wrap').on('mouseenter', '.inner', function () {
+        //     console.log('mouseenter by delgate');
+        // });
+        $('.inner').on('mouseenter', $.proxy(handler, window));
+
+        $('.wrap').click(function () {
+            $('.inner').off('mouseenter', handler);
+        })
+
+        function handler () {
+            console.log('mouseenter no delgate')
+        }
+
+        var bd=$('body');
+        bd.on('testevent', function (e) {
+           console.log('testevent') 
+        }).on('testevent.ych', function () {
+            console.log('testevent.ych') 
+        });
+        $('button').click(function () {
+            // bd.trigger('testevent'); // testevent testevent.ych
+            // bd.trigger('testevent.ych'); // 没有反应，因为吧testevent.ych当成了一整个事件名而不是ych为命名空间
+
+            // bd.triggerHandler('testevent'); // testevent testevent.ych
+            bd.triggerHandler('testevent.ych'); // testevent.ych
+        });
+        
+    </script>
+</body>
+</html>
