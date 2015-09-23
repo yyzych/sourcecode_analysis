@@ -2,6 +2,8 @@
 //     (c) 2010-2015 Thomas Fuchs
 //     Zepto.js may be freely distributed under the MIT license.
 
+// 注意：调用$(el).remove()不会将元素之前绑定的事件处理器移除的，所以之后将元素再添加进dom数中事件仍然有效
+// jquery的remove就会移除所有事件，但提供detach来只删元素不移除事件
 ;(function($) {
     var _zid = 1,
         undefined,
@@ -10,7 +12,7 @@
         isString = function(obj) {
             return typeof obj == 'string'
         },
-        handlers = {},
+        handlers = {}, // 保存了所有元素的所有事件处理程序
         specialEvents = {},
         focusinSupported = 'onfocusin' in window, // 当元素（或在其内的任意元素）获得焦点时发生 focusin 事件。focus不能冒泡，focusin能冒泡
         focus = {
@@ -313,7 +315,9 @@
                 this[event.type]()
             // items in the collection might not be DOM elements
             else if ('dispatchEvent' in this) 
-                this.dispatchEvent(event) //注意：这种由dispatchEvent触发的事件和浏览器自己触发的事件是不区分命名空间的，就是说，不能触发特定命名空间下的事件处理器（见上面注释）
+                //注意：这种由dispatchEvent触发的事件和浏览器自己触发的事件（click, mousedown...）是不区分命名空间的，就是说，不能触发特定命名空间下的事件处理器（见上面注释）
+                //但是，可以删除特定命名空间下的事件处理器，因为$(el).off()是由自己调用的
+                this.dispatchEvent(event)
             else 
                 $(this).triggerHandler(event, args)
         })
