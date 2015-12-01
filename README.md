@@ -2,8 +2,8 @@
 阅读前端框架，库源码
 
 ## 最近更新
-* [underscore](#)- 2015.12.1
-* [rewire](#)- 2015.10.31
+* [underscore](https://github.com/yyzych/sourcecode_analysis/tree/master/underscore)- 2015.12.1
+* [rewire](https://github.com/yyzych/sourcecode_analysis/tree/master/rewire) - 2015.10.31
 
 ## 已读
 * zepto 移动端dom操作库
